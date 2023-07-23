@@ -1,4 +1,4 @@
-## FastAPI + mysql Compose application v1
+## FastAPI + mysql Compose application v1 
 
 ### Use with Docker Development Environments
 

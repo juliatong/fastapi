@@ -12,13 +12,24 @@ services:
       start_period: 30s
     secrets:
       - db-password
+    # volumes:
+    #   - db-data:/var/lib/mysql
     volumes:
-      - db-data:/var/lib/mysql
+      - "./db:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 3306
+    # expose:
+    #   - 3306
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306   
 
   api:
     build:

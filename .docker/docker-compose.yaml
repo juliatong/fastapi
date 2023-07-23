@@ -4,9 +4,6 @@ services:
     # image: mariadb:10.6.4-focal
     # If you really want to use MySQL, uncomment the following line
     image: mysql:8.0.19
-    environment:
-      - MYSQL_DATABASE=example
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
@@ -17,8 +14,11 @@ services:
       - db-password
     volumes:
       - db-data:/var/lib/mysql
-    networks:
-      - SQLAlchemy-mysql
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 3306
 
   api:
     build:
@@ -33,10 +33,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: "no"
   
-  volumes:
-      db-data: {}
-  secrets:
-    db-password:
-      file: db/password.txt
-  networks:
-    SQLAlchemy-mysql: {}
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt

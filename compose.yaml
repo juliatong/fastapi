@@ -4,9 +4,10 @@ services:
     # image: mariadb:10.6.4-focal
     # If you really want to use MySQL, uncomment the following line
     image: mysql:8.0.19
+    command: '--default-authentication-plugin=mysql_native_password'
     restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$$(cat /run/secrets/db-password)" --silent']
       interval: 3s
       retries: 5
       start_period: 30s
@@ -36,6 +37,8 @@ services:
       context: app
       target: builder
     container_name: fastapi-application
+    secrets:
+      - db-password
     environment:
       PORT: 8000
     ports:

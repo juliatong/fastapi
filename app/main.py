@@ -25,6 +25,7 @@ class DBManager:
         return rec
 
 
+conn = None
 
 @app.get("/")
 def hello_world():
@@ -33,13 +34,13 @@ def hello_world():
 
 @app.get("/test")
 def test_connection():
-    return {"message": "OOOOO"}
-    # global conn
-    # if not conn:
-    #     conn = DBManager(password_file='/run/secrets/db-password')
-    # rec = conn.query_titles()
+    # return {"message": "OOOOO"}
+    global conn
+    if not conn:
+        conn = DBManager(password_file='/run/secrets/db-password')
+    rec = conn.query_titles()
 
-    # response = ''
-    # for c in rec:
-    #     response = response  + '<div>   Hello  ' + c + '</div>'
-    # return response
+    response = ''
+    for c in rec:
+        response = response  + '<div>   Hello  ' + c + '</div>'
+    return response

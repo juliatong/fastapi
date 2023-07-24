@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import pymysql.cursors
 
+
 app = FastAPI()
 
 class DBManager:
@@ -24,12 +25,12 @@ class DBManager:
             result = cursor.fetchone()
             print(result)
 
+
 conn = None
 
 @app.get("/")
 def hello_world():
     return {"message": "OK"}
-
 
 @app.get("/test")
 def test_connection():
@@ -38,3 +39,6 @@ def test_connection():
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
     rec = conn.query_titles()
+
+
+

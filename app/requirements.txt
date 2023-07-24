@@ -1,4 +1,4 @@
 fastapi
 uvicorn
-mysql-connector==2.2.9
+PyMySQL
 

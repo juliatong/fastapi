@@ -50,6 +50,11 @@ services:
 ```shell
 docker-compose up -d --build
 ```
+
+```shell
+docker-compose exec -it api /bin/bash
+```
+
 ## Expected result
 
 Listing containers must show one container running and the port mapping as below:

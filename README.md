@@ -55,6 +55,9 @@ docker-compose up -d --build
 docker-compose exec -it api /bin/bash
 ```
 
+```shell
+docker-compose logs -f;
+``` 
 ## Expected result
 
 Listing containers must show one container running and the port mapping as below:

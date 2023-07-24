@@ -1,5 +1,4 @@
 fastapi
 uvicorn
 PyMySQL
-sqlalchemy
-
+sqlalchemy==2.0.12

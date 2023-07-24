@@ -36,6 +36,8 @@ services:
       context: app
       target: dev-envs
     container_name: fastapi-application
+    depends_on:
+      - db
     environment:
       PORT: 8000
     ports:

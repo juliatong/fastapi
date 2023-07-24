@@ -38,8 +38,3 @@ def test_connection():
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
     rec = conn.query_titles()
-
-    response = ''
-    for c in rec:
-        response = response  + '<div>   Hello  ' + c + '</div>'
-    return response 

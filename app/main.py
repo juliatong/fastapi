@@ -17,16 +17,9 @@ class DBManager:
         self.cursor = self.connection.cursor()
 
     def query_titles(self):
-        # self.cursor.execute('SELECT * FROM ohlc price')
-        # rec = []
-        # for c in self.cursor:
-        #     print(c)
-        #     rec.append(c[0])
-        # return rec
-
         with self.cursor as cursor:
             # Read a single record
-            sql = "SELECT * FROM ohlc price"
+            sql = "SELECT * FROM ohlc_price"
             cursor.execute(sql)
             result = cursor.fetchone()
             print(result)

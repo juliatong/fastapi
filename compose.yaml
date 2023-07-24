@@ -37,6 +37,8 @@ services:
       context: app
       target: builder
     container_name: fastapi-application
+    depends_on:
+      - db
     secrets:
       - db-password
     environment:

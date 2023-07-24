@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Jul 24, 2023 at 05:34 AM
+-- Generation Time: Jul 24, 2023 at 10:32 AM
 -- Server version: 8.0.19
 -- PHP Version: 8.2.8
 
@@ -24,34 +24,34 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ohlc price`
+-- Table structure for table `ohlc_price`
 --
 
-CREATE TABLE `ohlc price` (
+CREATE TABLE `ohlc_price` (
   `UNIX` datetime NOT NULL,
   `SYMBOL` varchar(255) NOT NULL,
-  `OPEN` decimal(10,0) NOT NULL,
-  `CLOSE` decimal(10,0) NOT NULL,
-  `HIGH` decimal(10,0) NOT NULL,
-  `LOW` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='historical OHLC price data';
+  `OPEN` decimal(65,9) NOT NULL,
+  `CLOSE` decimal(65,9) NOT NULL,
+  `HIGH` decimal(65,9) NOT NULL,
+  `LOW` decimal(65,9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Historical OHLC Price Data';
 
 --
--- Dumping data for table `ohlc price`
+-- Dumping data for table `ohlc_price`
 --
 
-INSERT INTO `ohlc price` (`UNIX`, `SYMBOL`, `OPEN`, `CLOSE`, `HIGH`, `LOW`) VALUES
-('2022-02-16 00:21:40', 'BTCUSDT', 42123, 42146, 2148, 2121),
-('2023-02-15 23:54:00', 'BTCUSDT', 42113, 42123, 42126, 42113);
+INSERT INTO `ohlc_price` (`UNIX`, `SYMBOL`, `OPEN`, `CLOSE`, `HIGH`, `LOW`) VALUES
+('2022-02-16 00:21:40', 'BTCUSDT', 42123.290000000, 42146.060000000, 42148.320000000, 42120.820000000),
+('2023-02-15 18:26:00', 'BTCUSDT', 42113.080000000, 42123.300000000, 42126.320000000, 42113.070000000);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `ohlc price`
+-- Indexes for table `ohlc_price`
 --
-ALTER TABLE `ohlc price`
+ALTER TABLE `ohlc_price`
   ADD PRIMARY KEY (`UNIX`,`SYMBOL`);
 COMMIT;
 

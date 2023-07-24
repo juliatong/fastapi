@@ -33,7 +33,7 @@ services:
 
   api:
     build:
-      context: .
+      context: app
       target: builder
     container_name: fastapi-application
     environment:

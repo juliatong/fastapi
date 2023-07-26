@@ -4,6 +4,7 @@ import utils
 from connect import SessionLocal
 import uvicorn
 from models import Record
+import json
 
 
 app = FastAPI()
@@ -43,18 +44,15 @@ def get_all_records():
         for data in all_data:
             print(data.UNIX , data.SYMBOL)
 
-        record_string = json.dumps(records_list, default=utils.record_to_json, indent=4)
-        return record_string
+        records_dicts = [utils.record_to_dict(record) for record in all_data]
+        # Return the list of dictionaries as the response
+        return records_dicts
     finally:
         # Close the session to release resources
         db.close()
 
 
-
-
-
-load_csv()
-# get_all_records()
+# load_csv()
 
 
 

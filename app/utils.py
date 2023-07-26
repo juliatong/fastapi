@@ -21,11 +21,16 @@ def convert_unix_timestamp_milliseconds(timestamp_ms):
 
     return datetime_value
 
+
 # Custom JSON serialization method
-def record_to_json(record):
+def record_to_dict(record):
     return {
-        "UNIX": record.UNIX,
-        "SYMBOL": record.SYMBOL
+        "UNIX": record.UNIX.strftime("%Y-%m-%d %H:%M:%S"),
+        "SYMBOL": record.SYMBOL,
+        "OPEN": str(record.OPEN),
+        "HIGH": str(record.HIGH),
+        "LOW": str(record.LOW),
+        "CLOSE": str(record.CLOSE)
     }
 
 

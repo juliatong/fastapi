@@ -41,11 +41,14 @@ services:
       - db
     secrets:
       - db-password
+    volumes:
+      - ./app:/code
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload  
     environment:
       PORT: 8000
     ports:
       - '8000:8000'
-    restart: "no"
+    restart: always
   
 volumes:
   db-data:

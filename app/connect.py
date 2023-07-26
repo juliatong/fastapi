@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine,URL,text
+from sqlalchemy import create_engine,URL,text, orm 
 
 # DATABASE_URL ="mysql+pymysql://root:db-57xsl@db/example"
 # engine = create_engine(DATABASE_URL, echo=True)
@@ -25,5 +25,9 @@ try:
 
 except OperationalError as e:
     print("Error connecting to MySQL:", e)
+
+
+SessionLocal = orm.sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    
 
     

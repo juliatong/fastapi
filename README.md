@@ -52,13 +52,12 @@ docker-compose up -d --build
 ```
 
 ```shell
-docker-compose exec -it api /bin/bash
+docker-compose ps
 ```
 
 ```shell
 docker-compose logs -f;
 ``` 
-## Expected result
 
 Listing containers must show one container running and the port mapping as below:
 ```
@@ -66,6 +65,14 @@ $ docker ps
 CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS              PORTS                                               NAMES
 7087a6e79610   5c1778a60cf8   "/start.sh"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   fastapi-application
 ```
+
+## project relevant use
+1. enter the container `docker-compose exec -it api /bin/bash`
+2. create the tables by executing `create_table.py`
+3. verify the creation by executing `docker exec -it db mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM table_name;`
+
+
+## Expected result
 
 After the application starts, navigate to `http://localhost:8000` in your web browser and you should see the following json response:
 ```

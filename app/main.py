@@ -1,9 +1,9 @@
-from fastapi import FastAPI
-import csv
+from fastapi import FastAPI, Request
 import pymysql.cursors
-# from models import Record
-# from connect import SessionLocal
+import utils
+from connect import SessionLocal
 import uvicorn
+from models import Record
 
 
 app = FastAPI()
@@ -16,25 +16,45 @@ def hello_world():
 
 # @app.post("/data")
 # async def load_csv(request: Request):
-#     with open('names.csv', newline='') as csvfile:
-#         reader = csv.DictReader(csvfile)
-#         data_to_insert = []
-#         for row in reader:
-#             print(row['UNIX'], row['SYMBOL'])
-#             data_to_insert.append(Record(UNIX=row['UNIX'],SYMBOL=row["SYMBOL"] ))
+def load_csv():
+    data_to_insert=utils.load_csv()
+    for obj in data_to_insert:
+        print("in the list: "+ obj.OPEN+ obj.CLOSE+","+obj.HIGH)
 
-#     db = SessionLocal
-#     try:
-#         db.add_all(data_to_insert)
-#         db.commit()
-#     except Exception as e:
-#         db.rollback()
-#         raise e
-#     finally:
-#         db.close()
+    db =  db = SessionLocal()
+    try:
+        db.add_all(data_to_insert)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
 
-#     return {"message": "CSV data uploaded and inserted into the database."}
+    return {"message": "CSV data uploaded and inserted into the database."}
 
+
+@app.get("/data")
+def get_all_records():
+    db = SessionLocal()
+    try:
+        # Fetch all data from the database using the query method of the session
+        all_data = db.query(Record).all()
+        for data in all_data:
+            print(data.UNIX , data.SYMBOL)
+
+        record_string = json.dumps(records_list, default=utils.record_to_json, indent=4)
+        return record_string
+    finally:
+        # Close the session to release resources
+        db.close()
+
+
+
+
+
+load_csv()
+# get_all_records()
 
 
 

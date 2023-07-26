@@ -1,13 +1,14 @@
 import csv
 from models import Record
 from datetime import datetime
+import json
 
 def load_csv():
     with open('ohlc.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         data_to_insert = []
         for row in reader:
-            print(row['UNIX'], row['SYMBOL'], row['OPEN'], row['HIGH'], row['LOW'], row['CLOSE'])
+            # print(row['UNIX'], row['SYMBOL'], row['OPEN'], row['HIGH'], row['LOW'], row['CLOSE'])
             datetime_value = convert_unix_timestamp_milliseconds(row['UNIX'])
             data_to_insert.append(Record(UNIX=datetime_value,SYMBOL=row["SYMBOL"], OPEN=row['OPEN'], CLOSE=row['CLOSE'],HIGH=row['HIGH'],LOW=row['LOW']))
 
@@ -19,5 +20,13 @@ def convert_unix_timestamp_milliseconds(timestamp_ms):
     datetime_value = datetime.fromtimestamp(timestamp_seconds)
 
     return datetime_value
+
+# Custom JSON serialization method
+def record_to_json(record):
+    return {
+        "UNIX": record.UNIX,
+        "SYMBOL": record.SYMBOL
+    }
+
 
 load_csv()

@@ -33,5 +33,3 @@ def record_to_dict(record):
         "CLOSE": str(record.CLOSE)
     }
 
-
-load_csv()

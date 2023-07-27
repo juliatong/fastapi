@@ -1,7 +1,30 @@
 import csv
 from models import Record
 from datetime import datetime
+import tempfile
+import os
 import json
+
+async def process_csv_file (file):
+    # Create a temporary file to save the uploaded content
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    with open(temp_file.name, "wb") as f:
+        f.write(file)
+    
+    # Process the CSV file from the temporary location
+    data_to_insert = []
+    with open(temp_file.name, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+            print("++++row",row['UNIX'], row['SYMBOL'], row['OPEN'], row['HIGH'], row['LOW'], row['CLOSE'])
+            datetime_value = convert_unix_timestamp_milliseconds(row['UNIX'])
+            data_to_insert.append(Record(UNIX=datetime_value,SYMBOL=row["SYMBOL"], OPEN=row['OPEN'], CLOSE=row['CLOSE'],HIGH=row['HIGH'],LOW=row['LOW']))
+
+    # Close and remove the temporary file
+    temp_file.close()
+    os.unlink(temp_file.name)
+    return data_to_insert
+    
 
 def load_csv():
     with open('ohlc.csv', newline='') as csvfile:
@@ -15,6 +38,7 @@ def load_csv():
     return data_to_insert
 
 
+# ocnvert datetime
 def convert_unix_timestamp_milliseconds(timestamp_ms):
     timestamp_seconds = int(timestamp_ms) / 1000
     datetime_value = datetime.fromtimestamp(timestamp_seconds)

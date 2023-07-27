@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, UploadFile, File
 import pymysql.cursors
-import utils
+from utils import record_to_dict, process_csv_file
 from connect import SessionLocal
 import uvicorn
 from models import Record
@@ -15,14 +15,13 @@ def hello_world():
     return {"message": "OKabc"}
 
 
-# @app.post("/data")
-# async def load_csv(request: Request):
-def load_csv():
-    data_to_insert=utils.load_csv()
-    for obj in data_to_insert:
-        print("in the list: "+ obj.OPEN+ obj.CLOSE+","+obj.HIGH)
+@app.post("/data")
+async def upload_csv(file: UploadFile = File(...)):
+    contents = await file.read()
+    data_to_insert=await process_csv_file(contents)
 
-    db =  db = SessionLocal()
+    # Starting from here, to perform any additional processing on the CSV data
+    db = SessionLocal()
     try:
         db.add_all(data_to_insert)
         db.commit()
@@ -44,7 +43,7 @@ def get_all_records():
         for data in all_data:
             print(data.UNIX , data.SYMBOL)
 
-        records_dicts = [utils.record_to_dict(record) for record in all_data]
+        records_dicts = [record_to_dict(record) for record in all_data]
         # Return the list of dictionaries as the response
         return records_dicts
     finally:

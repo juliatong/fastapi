@@ -71,6 +71,13 @@ CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS         
 2. create the tables by executing `create_table.py`
 3. verify the creation by executing `docker exec -it db mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM table_name;`
 
+4. run unit tests and intg tests
+`python intg_test.py`
+`python test_file_processing.py`
+
+OR
+
+5. run tests on postman
 
 ## Expected result
 

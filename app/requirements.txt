@@ -2,3 +2,5 @@ fastapi
 uvicorn
 PyMySQL
 sqlalchemy==2.0.12
+requests
+pytest

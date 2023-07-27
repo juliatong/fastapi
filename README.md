@@ -65,11 +65,14 @@ $ docker ps
 CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS              PORTS                                               NAMES
 7087a6e79610   5c1778a60cf8   "/start.sh"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   fastapi-application
 ```
+## docs
+http://127.0.0.1:8000/docs
+
 
 ## project relevant use
 1. enter the container `docker-compose exec -it api /bin/bash`
 2. create the tables by executing `create_table.py`
-3. verify the creation by executing `docker exec -it db mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM table_name;`
+3. verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/
 
 4. run unit tests and intg tests
 `python intg_test.py`

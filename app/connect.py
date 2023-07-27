@@ -1,4 +1,7 @@
 from sqlalchemy import create_engine,URL,text, orm 
+from sqlalchemy.exc import OperationalError
+
+
 
 # DATABASE_URL ="mysql+pymysql://root:db-57xsl@db/example"
 # engine = create_engine(DATABASE_URL, echo=True)

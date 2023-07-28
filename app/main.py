@@ -51,7 +51,7 @@ async def upload_csv(files: List[UploadFile] = File(...)):
 
 # pagination with default value
 @app.get("/data")
-def get_all_records(token: Annotated[str, Depends(oauth2_scheme)], page_num: int = 1, page_size: int = 10):
+def get_all_records(token: str = Depends(oauth2_scheme), page_num: int = 1, page_size: int = 10):
     db = SessionLocal()
     try:
         # Fetch all data from the database using the query method of the session
@@ -67,7 +67,7 @@ def get_all_records(token: Annotated[str, Depends(oauth2_scheme)], page_num: int
 
 # path variable query
 @app.get("/data/{symbol}")
-def get_symbol_path_variable_records(symbol: str, token: Annotated[str, Depends(oauth2_scheme)]):   
+def get_symbol_path_variable_records(symbol: str, token: str = Depends(oauth2_scheme)):   
     db = SessionLocal()
     try:
         data_symbol = db.query(Record).filter_by(SYMBOL=symbol)

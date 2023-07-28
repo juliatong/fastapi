@@ -10,8 +10,7 @@ import asyncio
 import requests
 
 url = 'http://localhost:8000/data'
-# files = [('files', open('ohlc.csv', 'rb')), ('files', open('images/2.png', 'rb'))]
-files = {'file': open('ohlc.csv', 'rb')}
+files = [('files', open('ohlc.csv', 'rb'))]
 resp = requests.post(url=url, files=files)
 print(resp)
 print(resp.text)

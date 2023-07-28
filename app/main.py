@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, UploadFile, File
+from typing import List
 import pymysql.cursors
 from utils import record_to_dict, process_csv_file, load_csv, page_result
 from connect import SessionLocal
@@ -26,21 +27,21 @@ app = FastAPI()
 def hello_world():
     return {"message": "OK"}
 
-# def upload_csv():
-#     data_to_insert=load_csv()
+
 @app.post("/data")
-async def upload_csv(file: UploadFile = File(...)):
-    contents = await file.read()
-    data_to_insert=await process_csv_file(contents)
-    db = SessionLocal()
-    try:
-        db.add_all(data_to_insert)
-        db.commit()
-    except Exception as e:
-        db.rollback()
-        raise e
-    finally:
-        db.close()
+async def upload_csv(files: List[UploadFile] = File(...)):
+    for file in files:
+        contents = await file.read()
+        data_to_insert=await process_csv_file(contents)
+        db = SessionLocal()
+        try:
+            db.add_all(data_to_insert)
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
+        finally:
+            db.close()
 
     return {"message": "CSV data uploaded and inserted into the database."}
 
@@ -99,11 +100,6 @@ def get_symbol_path_variable_records(symbol: str):
 #         db.close()
 
 
-
-
-
-
-# upload_csv()
 
 
 

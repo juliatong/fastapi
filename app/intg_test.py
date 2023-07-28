@@ -22,8 +22,9 @@ def test_post_data():
 
 
 
-# def test_read_main():
-#     response = client.get("/")
-#     assert response.status_code == 200
-#     assert response.json() == {"msg": "Hello World"}
+def test_read_main():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "OK"}
 
+# can add more GET tests here as an alernative to GET on postman

@@ -6,7 +6,8 @@ from connect import SessionLocal
 import uvicorn
 from models import Record
 import json
-from create_tables import create_table
+# from create_tables import create_table
+import subprocess
 import logging
 
 
@@ -18,10 +19,6 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 app = FastAPI()
 
-
-# @app.on_event("startup")
-# async def startup():
-#     create_table()
 
 @app.get("/")
 def hello_world():

@@ -26,14 +26,12 @@ app = FastAPI()
 def hello_world():
     return {"message": "OK"}
 
-
-# @app.post("/data")
-# async def upload_csv(file: UploadFile = File(...)):
-#     contents = await file.read()
-#     data_to_insert=await process_csv_file(contents)
-def upload_csv():
-    data_to_insert=load_csv()
-    # Starting from here, to perform any additional processing on the CSV data
+# def upload_csv():
+#     data_to_insert=load_csv()
+@app.post("/data")
+async def upload_csv(file: UploadFile = File(...)):
+    contents = await file.read()
+    data_to_insert=await process_csv_file(contents)
     db = SessionLocal()
     try:
         db.add_all(data_to_insert)

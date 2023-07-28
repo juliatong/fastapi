@@ -64,15 +64,12 @@ def get_all_records(page_num: int = 1, page_size: int = 10):
 def get_symbol_path_variable_records(symbol: str):   
     db = SessionLocal()
     try:
-        # Fetch all data from the database using the query method of the session
-        print("path variable++",symbol)
         data_symbol = db.query(Record).filter_by(SYMBOL=symbol)
         # for data with symbol:
         # for data in data_symbol:
         #     print(data.UNIX , data.SYMBOL)
 
         records_dicts = [record_to_dict(record) for record in data_symbol]
-        # Return the list of dictionaries as the response
         return records_dicts
     finally:
         db.close()
@@ -96,7 +93,7 @@ def get_symbol_path_variable_records(symbol: str):
 #     finally:
 #         db.close()
 
-
+# 
 
 
 

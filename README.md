@@ -65,22 +65,6 @@ $ docker ps
 CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS              PORTS                                               NAMES
 7087a6e79610   5c1778a60cf8   "/start.sh"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   fastapi-application
 ```
-## docs
-http://127.0.0.1:8000/docs
-
-
-## project relevant use
-1. enter the container `docker-compose exec -it api /bin/bash`
-2. create the tables by executing `create_table.py`
-3. verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/
-
-4. run unit tests and intg tests
-`python intg_test.py`
-`python test_file_processing.py`
-
-OR
-
-5. run tests on postman
 
 ## Expected result
 
@@ -91,7 +75,46 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 }
 ```
 
+
+
+## project relevant. How to play
+
+1. enter the container `docker-compose exec -it api /bin/bash`
+2. create the tables by executing `create_tables.py`
+3. verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/
+
+4. run unit tests
+`python utils_test.py`
+
+5. test POST /data endpoint
+`python intg_test.py` -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
+
+6. verify the result of POST /data by querying GET /data
+
+7. test GET with filer, pagination endpoints: run tests on postman OR browser
+
+
+
+## API docs
+http://127.0.0.1:8000/docs
+
+
 Stop and remove the containers
 ```
 $ docker compose down
 ```
+
+
+## automation TODOs:
+
+# @app.on_event("startup")
+# async def startup_event():
+#     try:
+#         subprocess.call(["python", "create_tables.py"])
+#     except Exception as e:
+#         print(f"Error during startup: {e}") 
+
+
+## function extension
+sort
+group by

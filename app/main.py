@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, UploadFile, File
 import pymysql.cursors
-from utils import record_to_dict, process_csv_file, load_csv
+from utils import record_to_dict, process_csv_file, load_csv, page_result
 from connect import SessionLocal
 import uvicorn
 from models import Record
@@ -47,17 +47,19 @@ def upload_csv():
     return {"message": "CSV data uploaded and inserted into the database."}
 
 
-# @app.get("/data")
-# def get_all_records():
-#     db = SessionLocal()
-#     try:
-#         # Fetch all data from the database using the query method of the session
-#         all_data = db.query(Record).all()
-#         records_dicts = [record_to_dict(record) for record in all_data]
-#         # Return the list of dictionaries as the response
-#         return records_dicts
-#     finally:
-#         db.close()
+# pagination with default value
+@app.get("/data")
+def get_all_records(page_num: int = 1, page_size: int = 10):
+    db = SessionLocal()
+    try:
+        # Fetch all data from the database using the query method of the session
+        all_data = db.query(Record).all()
+        records_dicts = [record_to_dict(record) for record in all_data]
+        # Return the list of dictionaries as the response
+        paged_response=page_result(records_dicts, page_num, page_size)
+        return paged_response
+    finally:
+        db.close()
 
 
 
@@ -79,35 +81,33 @@ def get_symbol_path_variable_records(symbol: str):
     finally:
         db.close()
 
+# TODO: offset/cursor based pagination
+
+# TODO: query parameter query
+# @app.get("/data")
+# def get_symbol_query_parameter_records(symbol: str):
+#     db = SessionLocal()
+#     try:
+#         # Fetch all data from the database using the query method of the session
+#         if symbol:
+#             print("query parameter--")
+#             tmp={ "symbol": symbol}
+#             print(tmp)
+#         data_symbol = db.query(Record).filter_by(SYMBOL=symbol)
+#         records_dicts = [record_to_dict(record) for record in data_symbol]
+#         # Return the list of dictionaries as the response
+#         return records_dicts
+#     finally:
+#         db.close()
 
 
-# query parameter query
-@app.get("/data")
-def get_symbol_query_parameter_records(symbol: str):
-    db = SessionLocal()
-    try:
-        # Fetch all data from the database using the query method of the session
-        if symbol:
-            print("query parameter--")
-            tmp={ "symbol": symbol}
-            print(tmp)
-        data_symbol = db.query(Record).filter_by(SYMBOL=symbol)
-        records_dicts = [record_to_dict(record) for record in data_symbol]
-        # Return the list of dictionaries as the response
-        return records_dicts
-    finally:
-        db.close()
 
 
-# pagination with default value
-@app.get("/data")
-async def read_item(skip: int = 0, limit: int = 10):
-    return fake_items_db[skip : skip + limit]
 
 
-upload_csv()
+# upload_csv()
 
-# cursor based pagination
+
 
 
 

@@ -104,16 +104,6 @@ $ docker compose down
 ```
 
 
-## automation TODOs:
-
-# @app.on_event("startup")
-# async def startup_event():
-#     try:
-#         subprocess.call(["python", "create_tables.py"])
-#     except Exception as e:
-#         print(f"Error during startup: {e}") 
-
-
 ## function extension
-sort
-group by
+sort: order by
+aggregation : group by

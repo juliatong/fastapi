@@ -10,20 +10,12 @@ You can open this sample in the Dev Environments feature of Docker Desktop versi
 
 <!-- Project structure:
 ```
-├── compose.yaml
-├── Dockerfile
-├── requirements.txt
-├── app
-    ├── main.py
-    ├── __init__.py
-
-``` -->
-
-```
 ├── db
 │   └── password.txt
 ├── app
-│   ├── src...
+│   ├── main.py
+│   ├── create_tables.py
+│   ├── ...
 │   └── Dockerfile
 ├── compose.yaml
 ├── requirements.txt
@@ -34,6 +26,8 @@ You can open this sample in the Dev Environments feature of Docker Desktop versi
 [_compose.yaml_](compose.yaml)
 ```
 services:
+  db:
+  phpmyadmin:
   api:
     build: .
     container_name: fastapi-application
@@ -77,25 +71,33 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 
 
 
-## project relevant. How to play
+## Project relevant. How to play
 
-1. enter the container `docker-compose exec -it api /bin/bash`
-2. create the tables by executing `create_tables.py`
-3. verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`, `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/
+1. Enter the container `docker-compose exec -it api /bin/bash`
+2. Create the tables by executing `python create_tables.py`
+3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
 
-4. execute `pytest` to run all the tests
+4. Execute `pytest` to run all the tests
 Troubleshoot tips: if there are erros, run each test alone
 `python utils_test.py` test POST /data endpoint
 `python intg_test.py` -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
 
-5. verify the result of POST /data by querying GET /data
+5. Test service by trying GET /, expected result is {"",""}
 
-6. test GET with filer, pagination endpoints: run tests on postman OR browser
+6. Before testing any endpoints...please authenticate yourself...POST /token, for now key in usrname and password as you like.
+
+7. If you have run pytest in step 4, when you test POST/data endpoint, please make sure the data you are uploading here has no overlap of the data in the ohlv.csv. Otherwise it would be inserting the date twice, violating primary key.
+
+8. verify the result by querying GET /data
+
+9. Test GET with filer, pagination endpoints or sort: run tests on postman OR browser
 
 
 
 ## API docs
-http://127.0.0.1:8000/docs
+http://localhost:8000/docs
+1. step authenticate client key in usename and password. For now it is not enforced, as long as you key in something, it will work
+2. Try out the endpoints you like
 
 
 Stop and remove the containers

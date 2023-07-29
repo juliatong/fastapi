@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Request, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import text
+from sqlalchemy.sql import func
 from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 # from schema import RecordOutput
 from typing import Annotated
@@ -106,25 +107,25 @@ def get_all_records_limit(token: str = Depends(oauth2_scheme), sort_column: str=
         db.close()
 
 
-
-# TODO: query parameter query
-# @app.get("/data")
-# def get_symbol_query_parameter_records(symbol: str):
+# aggregation
+# @app.get("/data/aggregate")
+# def get_all_records_limit(token: str = Depends(oauth2_scheme), group_by_column: str = None):
 #     db = SessionLocal()
 #     try:
-#         # Fetch all data from the database using the query method of the session
-#         if symbol:
-#             print("query parameter--")
-#             tmp={ "symbol": symbol}
-#             print(tmp)
-#         data_symbol = db.query(Record).filter_by(SYMBOL=symbol)
-#         records_dicts = [record_to_dict(record) for record in data_symbol]
-#         # Return the list of dictionaries as the response
+#         query = db.query(Record, func.sum(Record.OPEN))
+
+#         if group_by_column:
+#             query = query.group_by(text(group_by_column))
+
+#         all_data = query.all()
+#         records_dicts = [record_to_dict(record) for record in all_data]
 #         return records_dicts
 #     finally:
 #         db.close()
 
-# 
+
+# TODO: query parameter query
+
 
 
 

@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI, Request, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from sqlalchemy import text
 from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 # from schema import RecordOutput
 from typing import Annotated
@@ -51,32 +52,6 @@ async def upload_csv(files: List[UploadFile] = File(...)):
     return {"message": "CSV data uploaded and inserted into the database."}
 
 
-# pagination with default value
-@app.get("/data")
-def get_all_records(token: str = Depends(oauth2_scheme), page_num: int = 1, page_size: int = 10):
-    db = SessionLocal()
-    try:    
-        # Fetch all data from the database using the query method of the session
-        all_data = db.query(Record).all()
-        records_dicts = [record_to_dict(record) for record in all_data]
-        # Return the list of dictionaries as the response
-        paged_response=page_result(records_dicts, page_num, page_size)
-        return paged_response
-    finally:
-        db.close()
-
-# pagination with offset/limit
-@app.get("/data/paging")
-def get_all_records_limit(token: str = Depends(oauth2_scheme),skip: int = 0, limit: int = 10 ):
-    db = SessionLocal()
-    try:
-        all_data=db.query(Record).offset(skip).limit(limit).all()
-        records_dicts = [record_to_dict(record) for record in all_data]
-        return records_dicts
-    finally:
-        db.close()
-
-
 # path variable query
 @app.get("/data/{symbol}")
 def get_symbol_path_variable_records(symbol: str, token: str = Depends(oauth2_scheme)):   
@@ -91,6 +66,45 @@ def get_symbol_path_variable_records(symbol: str, token: str = Depends(oauth2_sc
         return records_dicts
     finally:
         db.close()
+
+# pagination with default value
+@app.get("/data")
+def get_all_records(token: str = Depends(oauth2_scheme), page_num: int = 1, page_size: int = 10):
+    db = SessionLocal()
+    try:    
+        # Fetch all data from the database using the query method of the session
+        all_data = db.query(Record).all()
+        records_dicts = [record_to_dict(record) for record in all_data]
+        # Return the list of dictionaries as the response
+        paged_response=page_result(records_dicts, page_num, page_size)
+        return paged_response
+    finally:
+        db.close()
+
+
+# pagination with offset/limit
+@app.get("/data/paging")
+def get_all_records_limit(token: str = Depends(oauth2_scheme),skip: int = 0, limit: int = 10 ):
+    db = SessionLocal()
+    try:
+        all_data=db.query(Record).offset(skip).limit(limit).all()
+        records_dicts = [record_to_dict(record) for record in all_data]
+        return records_dicts
+    finally:
+        db.close()
+
+
+# sort
+@app.get("/data/sort")
+def get_all_records_limit(token: str = Depends(oauth2_scheme), sort_column: str=None ):
+    db = SessionLocal()
+    try:
+        all_data=db.query(Record).order_by(text(sort_column)).all()
+        records_dicts = [record_to_dict(record) for record in all_data]
+        return records_dicts
+    finally:
+        db.close()
+
 
 
 # TODO: query parameter query

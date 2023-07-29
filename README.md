@@ -7,7 +7,7 @@ You can open this sample in the Dev Environments feature of Docker Desktop versi
 [Open in Docker Dev Environments <img src="../open_in_new.svg" alt="Open in Docker Dev Environments" align="top"/>](https://open.docker.com/dashboard/dev-envs?url=https://github.com/docker/awesome-compose/tree/master/fastapi)
 
 ### Python/FastAPI application
-Project structure:
+-- Project structure:
 ```
 ├── db
 │   └── password.txt
@@ -76,10 +76,12 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 2. Create the tables by executing `python create_tables.py`
 3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
 
-4. Execute `pytest` to run all the tests
+4. Execute `pytest` to run ALL the tests
 Troubleshoot tips: if there are erros, run each test alone
+`python connect_test.py` test DB connection
 `python utils_test.py` test POST /data endpoint
 `python intg_test.py` -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
+`python connect_test.py` test DB manager
 
 5. Test service by trying GET /, expected result is {"",""}
 

@@ -12,8 +12,6 @@ services:
       - db-password
     # volumes: # this is how we persist a sql db even when container stops
     #   - db-data:/var/lib/mysql
-    volumes:
-      - "./db:/docker-entrypoint-initdb.d" 
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password

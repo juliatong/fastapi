@@ -1,3 +1,4 @@
+# db_manager.py
 import pymysql.cursors
 
 class DBManager:
@@ -6,7 +7,7 @@ class DBManager:
         self.connection = pymysql.connect(
             user=user, 
             password="db-57xsl",
-            host=host, # name of the mysql service as set in the docker compose file
+            host=host, # name of the MySQL service as set in the docker compose file
             database=database,
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -16,19 +17,7 @@ class DBManager:
     def query_ohlc(self):
         with self.cursor as cursor:
             # Read a single record
-            sql = "SELECT * FROM ohlc_price"
+            sql = "SELECT * FROM ohlc_history"
             cursor.execute(sql)
             result = cursor.fetchone()
-            print(result)
-
-
-conn = None
-
-def test_connection():
-    global conn
-    if not conn:
-        conn = DBManager(password_file='/run/secrets/db-password')
-    rec = conn.query_ohlc()
-
-
-test_connection()    
+            return result

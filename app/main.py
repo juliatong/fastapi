@@ -1,5 +1,7 @@
 from fastapi import Depends, FastAPI, Request, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
+# from schema import RecordOutput
 from typing import Annotated
 from typing import List
 import pymysql.cursors  
@@ -53,7 +55,7 @@ async def upload_csv(files: List[UploadFile] = File(...)):
 @app.get("/data")
 def get_all_records(token: str = Depends(oauth2_scheme), page_num: int = 1, page_size: int = 10):
     db = SessionLocal()
-    try:
+    try:    
         # Fetch all data from the database using the query method of the session
         all_data = db.query(Record).all()
         records_dicts = [record_to_dict(record) for record in all_data]
@@ -63,6 +65,16 @@ def get_all_records(token: str = Depends(oauth2_scheme), page_num: int = 1, page
     finally:
         db.close()
 
+# pagination with offset/limit
+@app.get("/data/paging")
+def get_all_records_limit(token: str = Depends(oauth2_scheme),skip: int = 0, limit: int = 10 ):
+    db = SessionLocal()
+    try:
+        all_data=db.query(Record).offset(skip).limit(limit).all()
+        records_dicts = [record_to_dict(record) for record in all_data]
+        return records_dicts
+    finally:
+        db.close()
 
 
 # path variable query
@@ -80,7 +92,6 @@ def get_symbol_path_variable_records(symbol: str, token: str = Depends(oauth2_sc
     finally:
         db.close()
 
-# TODO: offset/cursor based pagination
 
 # TODO: query parameter query
 # @app.get("/data")

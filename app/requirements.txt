@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 PyMySQL
-sqlalchemy==2.0.12
+sqlalchemy==2.0.19
 requests
 pytest
 python-multipart

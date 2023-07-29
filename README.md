@@ -76,22 +76,22 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 2. Create the tables by executing `python create_tables.py`
 3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
 
-4. Execute `pytest` to run ALL the tests
+4. Leverage `python intg_test.py` to populate the table -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
+5. Execute `pytest` to run ALL the tests
 Troubleshoot tips: if there are erros, run each test alone
 `python connect_test.py` test DB connection
 `python utils_test.py` test POST /data endpoint
-`python intg_test.py` -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
 `python connect_test.py` test DB manager
 
-5. Test service by trying GET /, expected result is {"",""}
+6. Test service by trying GET /, expected result is {"",""}
 
-6. Before testing any endpoints...please authenticate yourself...POST /token, for now key in usrname and password as you like.
+7. Before testing any endpoints...please authenticate yourself...POST /token, for now key in usrname and password as you like.
 
-7. If you have run pytest in step 4, when you test POST/data endpoint, please make sure the data you are uploading here has no overlap of the data in the ohlv.csv. Otherwise it would be inserting the date twice, violating primary key.
+8. If you have run pytest in step 4, when you test POST/data endpoint, please make sure the data you are uploading here has no overlap of the data in the ohlv.csv. Otherwise it would be inserting the date twice, violating primary key.
 
-8. verify the result by querying GET /data
+9. verify the result by querying GET /data
 
-9. Test GET with filer, pagination endpoints or sort: run tests on postman OR browser
+10. Test GET with filer, pagination endpoints or sort: run tests on postman OR browser
 
 
 

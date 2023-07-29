@@ -10,13 +10,11 @@ services:
       start_period: 30s
     secrets:
       - db-password
-    # volumes: # this is how we persist a sql db even when container stops
-    #   - db-data:/var/lib/mysql
+    volumes: # this is how we persist a sql db even when container stops
+      - ./db/data:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
-    # expose:
-    #   - 3306
 
   phpmyadmin:
     image: phpmyadmin

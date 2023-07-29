@@ -65,7 +65,7 @@ def get_records(symbol: str = None,  page_num: int = 1, page_size: int = 10, sor
         if sort_column:
             query=query.order_by(text(sort_column))    
         # pagination    
-        skip=page_num-1
+        skip=(page_num-1) * limit
         limit=page_size
         query=query.offset(skip).limit(limit)
 

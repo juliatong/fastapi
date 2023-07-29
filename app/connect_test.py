@@ -5,7 +5,7 @@ from connect import engine
 
 class TestDatabaseConnection(unittest.TestCase):
     def setUp(self):
-        self.engine = engine  # In-memory SQLite database for testing
+        self.engine = engine
         
     def test_database_connection(self):
         try:

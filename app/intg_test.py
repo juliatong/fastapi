@@ -20,6 +20,7 @@ def test_post_data():
 
     headers = {
         'Authorization': f'Bearer {token}',
+        # 'Content-Type': 'text/csv',
     }
 
     files = [('files', open('ohlc.csv', 'rb'))]
@@ -28,11 +29,16 @@ def test_post_data():
     print(resp.status_code) 
     print(resp.text)
 
+    if resp.status_code == 200:
+        print("CSV data uploaded successfully.")
+    else:
+        print(f"Failed to upload CSV data. Status code: {resp.status_code}")
+        print(resp.text)
 
 def test_read():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "OK"}
 
-
+# test_post_data()
 # can add more GET tests here as an alernative to GET on postman

@@ -1,4 +1,5 @@
-from fastapi import Depends, FastAPI, Request, UploadFile, File
+from fastapi import Depends, FastAPI, Request, UploadFile, File, HTTPException
+import mimetypes
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import text
 from datetime import datetime
@@ -39,6 +40,11 @@ def hello_world():
 @app.post("/data")
 async def upload_csv(files: List[UploadFile] = File(...), token: str = Depends(oauth2_scheme)):
     for file in files:
+        # Check if the file is a CSV file based on its content type
+        # content_type, _ = mimetypes.guess_type(file.filename)
+        # if content_type != 'text/csv':
+        #     raise HTTPException(status_code=415, detail="Unsupported Media Type. Only CSV files are allowed.")
+
         contents = await file.read()
         data_to_insert=await process_csv_file(contents)
         db = SessionLocal()

@@ -1,4 +1,4 @@
-## FastAPI + mysql Compose application v1 
+## FastAPI + SQLAlchemy 2.0 +mysql Compose application v1 
 
 ### Use with Docker Development Environments
 
@@ -74,7 +74,7 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 
 1. Enter the container `docker-compose exec -it api /bin/bash`
 2. Create and Populate the tables by executing `python create_tables.py`
-3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
+3. Verify the creation by log in phpmyadmin http://localhost:8001/, username:root, password :root OR executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` 
 
 4. Execute `pytest` to run ALL the tests
 Troubleshoot tips: if there are erros, run each test alone

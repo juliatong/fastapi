@@ -39,5 +39,5 @@ def test_read():
     assert response.status_code == 200
     assert response.json() == {"message": "OK"}
 
-# test_post_data()
+test_post_data()
 # can add more GET tests here as an alernative to GET on postman

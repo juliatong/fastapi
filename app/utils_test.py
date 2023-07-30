@@ -1,5 +1,5 @@
 import unittest
-from utils import process_csv_file, record_to_dict, page_result
+from utils import process_csv_file, record_to_dict
 import asyncio
 import json
 from datetime import datetime
@@ -26,18 +26,18 @@ class TestProcessCSVFile(unittest.TestCase):
 
 
 
-    def test_pagination_json(self):
-        with open('result_data.json') as f:
-            data = json.load(f)
+    # def test_pagination_json(self):
+    #     with open('result_data.json') as f:
+    #         data = json.load(f)
 
-        paged_response=page_result(data, 1, 1)
+    #     paged_response=page_result(data, 1, 1)
         
-        json_response = json.dumps(paged_response, indent=2)
+    #     json_response = json.dumps(paged_response, indent=2)
 
-        # Print the JSON-like formatted string
-        print("======Print the JSON-like formatted string")
-        print(json_response)
-        # self.assertEqual(records_dicts, expected_data)
+    #     # Print the JSON-like formatted string
+    #     print("======Print the JSON-like formatted string")
+    #     print(json_response)
+    #     # self.assertEqual(records_dicts, expected_data)
 
 
 if __name__ == "__main__":

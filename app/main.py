@@ -8,7 +8,7 @@ from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 from typing import Annotated
 from typing import List
 import pymysql.cursors  
-from utils import record_to_dict, process_csv_file, load_csv, page_result
+from utils import record_to_dict, process_csv_file, load_csv
 from connect import SessionLocal
 import uvicorn
 from models import Record

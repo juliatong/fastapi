@@ -14,6 +14,7 @@ class DBManager:
         pf.close()
         self.cursor = self.connection.cursor()
 
+                
     def query_ohlc(self):
         with self.cursor as cursor:
             # Read a single record

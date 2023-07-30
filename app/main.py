@@ -93,20 +93,7 @@ def get_records(symbol: str = None, from_date: int=None, to_date: int=None, page
 
 
 # aggregation
-# @app.get("/data/aggregate")
-# def get_all_records_limit(token: str = Depends(oauth2_scheme), group_by_column: str = None):
-#     db = SessionLocal()
-#     try:
-#         query = db.query(Record, func.sum(Record.OPEN))
 
-#         if group_by_column:
-#             query = query.group_by(text(group_by_column))
-
-#         all_data = query.all()
-#         records_dicts = [record_to_dict(record) for record in all_data]
-#         return records_dicts
-#     finally:
-#         db.close()
 
 
 

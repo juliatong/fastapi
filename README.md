@@ -73,25 +73,25 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 ## Project relevant. How to play
 
 1. Enter the container `docker-compose exec -it api /bin/bash`
-2. Create the tables by executing `python create_tables.py`
+2. Create and Populate the tables by executing `python create_tables.py`
 3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
 
-4. Populate the table `python intg_test.py` to  -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
-5. Execute `pytest` to run ALL the tests
+4. Execute `pytest` to run ALL the tests
 Troubleshoot tips: if there are erros, run each test alone
 `python connect_test.py` test DB connection
-`python utils_test.py` test POST /data endpoint
+`python utils_test.py` test on functions in utils_py
 `python connect_test.py` test DB manager
+`python intg_test.py` integration test on POST /data endpoint-- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
 
-6. Test service by trying GET /, expected result is {"message": "OK"}
+5. Test service by trying GET /, expected result is {"message": "OK"}
 
-7. Before testing any endpoints...please authenticate yourself...POST /token, for now key in usrname and password as you like.
+6. Before EVERYTHING...please authenticate yourself bu executing POST /token. For now key in usrname and password as you like.
 
-8. If you have run pytest in step 4, when you test POST/data endpoint, please make sure the data you are uploading here has no overlap of the data in the ohlv.csv. Otherwise it would be inserting the date twice, violating primary key.
+7. If you have run pytest in step 4, when you test POST/data endpoint, please make sure the data you are uploading here has no overlap of the data in the ohlv.csv or any in create_tables.populate_table(). Otherwise it would be inserting the date twice, violating primary key.
 
-9. verify the result by querying GET /data
+8. verify the result by querying GET /data
 
-10. Test GET with filer, pagination endpoints or sort: run tests on postman OR browser
+9. Test GET with filer, pagination endpoints or sort: run tests on postman OR browser
 
 
 

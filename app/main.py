@@ -37,7 +37,7 @@ def hello_world():
 
 
 @app.post("/data")
-async def upload_csv(files: List[UploadFile] = File(...)):
+async def upload_csv(files: List[UploadFile] = File(...), token: str = Depends(oauth2_scheme)):
     for file in files:
         contents = await file.read()
         data_to_insert=await process_csv_file(contents)

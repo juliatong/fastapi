@@ -7,27 +7,27 @@ DB_SERVICE = db
 
 # Targets
 install:
-    @echo "Installing Docker Compose project dependencies..."
+	@echo "Installing Docker Compose project dependencies..."
 
 build:
-    @echo "Building Docker Compose project..."
-    $(DOCKER_COMPOSE) build
+	@echo "Building Docker Compose project..."
+	$(DOCKER_COMPOSE) build
 
 up:
-    @echo "Starting Docker Compose services..."
-    $(DOCKER_COMPOSE) up -d
+	@echo "Starting Docker Compose services..."
+	$(DOCKER_COMPOSE) up -d
 
 down:
-    @echo "Stopping Docker Compose services..."
-    $(DOCKER_COMPOSE) down
+	@echo "Stopping Docker Compose services..."
+	$(DOCKER_COMPOSE) down
 
 view:
-    @echo "Viewing Docker Compose services..."
-    $(DOCKER_COMPOSE) ps
+	@echo "Viewing Docker Compose services..."
+	$(DOCKER_COMPOSE) ps
 
 logs:
-    @echo "Showing Docker Compose logs..."
-    $(DOCKER_COMPOSE) logs -f
+	@echo "Showing Docker Compose logs..."
+	$(DOCKER_COMPOSE) logs -f
 
 test: 
 	@echo "Running all the tests..."
@@ -36,12 +36,12 @@ test:
 restart: down up
 
 shell-app:
-    @echo "Starting a shell inside the app container..."
-    $(DOCKER_COMPOSE) exec -it $(APP_SERVICE) /bin/bash
+	@echo "Starting a shell inside the app container..."
+	$(DOCKER_COMPOSE) exec -it $(APP_SERVICE) /bin/bash
 
 shell-db:
-    @echo "Starting a shell inside the database container..."
-    $(DOCKER_COMPOSE) exec -it $(DB_SERVICE) /bin/bash
+	@echo "Starting a shell inside the database container..."
+	$(DOCKER_COMPOSE) exec -it $(DB_SERVICE) /bin/bash
 
 deploy: install build up view
 test: shell-app test

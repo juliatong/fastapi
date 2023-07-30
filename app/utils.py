@@ -29,36 +29,6 @@ async def process_csv_file (file):
     return data_to_insert
 
 
-# page result set with page num an dpage size
-def page_result(data, page_num, page_size):
-    data_length=len(data)
-    start = (page_num - 1) * page_size
-    end = start + page_size
-
-    response = {
-        "data": data[start:end],
-        "total": data_length,
-        "count": page_size,
-        "pagination": {}
-    }
-
-    if end >= data_length:
-        response["pagination"]["next"] = None
-
-        if page_num > 1:
-            response["pagination"]["previous"] = f"/data?page_num={page_num-1}&page_size={page_size}"
-        else:
-            response["pagination"]["previous"] = None
-    else:
-        if page_num > 1:
-            response["pagination"]["previous"] = f"/data?page_num={page_num-1}&page_size={page_size}"
-        else:
-            response["pagination"]["previous"] = None
-
-        response["pagination"]["next"] = f"/data?page_num={page_num+1}&page_size={page_size}"
-    return response    
-
-
 
 def load_csv():
     with open('ohlc.csv', newline='') as csvfile:

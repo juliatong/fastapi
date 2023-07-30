@@ -55,7 +55,7 @@ async def upload_csv(files: List[UploadFile] = File(...)):
 
 
 @app.get("/data")
-def get_records(symbol: str = None, from_Date: str=None, to_Date: str=None, page_num: int = 1, page_size: int = 10, sort_column: str = None, token: str = Depends(oauth2_scheme)):   
+def get_records(symbol: str = None, from_date: int=None, to_date: int=None, page_num: int = 1, page_size: int = 10, sort_column: str = None, token: str = Depends(oauth2_scheme)):   
     db = SessionLocal()
     try:
         query = db.query(Record)
@@ -63,12 +63,10 @@ def get_records(symbol: str = None, from_Date: str=None, to_Date: str=None, page
         if symbol:
             query=query.filter_by(SYMBOL=symbol)
         # filter by date range
-        if from_Date:
-            start_date=datetime.fromtimestamp(from_Date/1000)
-            query=query.filter_by(Record.UNIX>=start_date)
-        if to_Date:
-            end_date=datetime.fromtimestamp(to_Date/1000)
-            query=query.filter_by(Record.UNIX>=end_date)        
+        if from_date is not None or to_date is not None:
+            start_date=datetime.fromtimestamp(from_date/1000)
+            end_date=datetime.fromtimestamp(to_date/1000)
+            query=query.filter(Record.UNIX.between(start_date, end_date))     
         # sort
         if sort_column:
             query=query.order_by(text(sort_column))    

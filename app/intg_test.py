@@ -20,17 +20,19 @@ def test_post_data():
 
     headers = {
         'Authorization': f'Bearer {token}',
-        'Content-Type': 'application/json',  # Set the appropriate content type if needed
     }
+
     files = [('files', open('ohlc.csv', 'rb'))]
     resp = requests.post(url=url, files=files, headers=headers)
+    print(resp.request.headers)
     print(resp.status_code) 
     print(resp.text)
 
 
-def test_read_main():
+def test_read():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "OK"}
+
 
 # can add more GET tests here as an alernative to GET on postman

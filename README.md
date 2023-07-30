@@ -76,7 +76,7 @@ After the application starts, navigate to `http://localhost:8000` in your web br
 2. Create the tables by executing `python create_tables.py`
 3. Verify the creation by executing `docker exec -it fastapi-db-1 mysql -u root -p`,key in root when asked password,  `USE example`, `show tables;`, `SELECT * FROM ohlc_history;` || log in phpmyadmin http://localhost:8001/, username:root, password :root
 
-4. Leverage `python intg_test.py` to populate the table -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
+4. Populate the table `python intg_test.py` to  -- By right, it should insert to test DB, but here we insert into PROD DB for convenience 
 5. Execute `pytest` to run ALL the tests
 Troubleshoot tips: if there are erros, run each test alone
 `python connect_test.py` test DB connection

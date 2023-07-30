@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Request, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import text
+from datetime import datetime
 from sqlalchemy.sql import func
 from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 # from schema import RecordOutput
@@ -54,20 +55,28 @@ async def upload_csv(files: List[UploadFile] = File(...)):
 
 
 @app.get("/data")
-def get_records(symbol: str = None,  page_num: int = 1, page_size: int = 10, sort_column: str = None, token: str = Depends(oauth2_scheme)):   
+def get_records(symbol: str = None, from_Date: str=None, to_Date: str=None, page_num: int = 1, page_size: int = 10, sort_column: str = None, token: str = Depends(oauth2_scheme)):   
     db = SessionLocal()
     try:
         query = db.query(Record)
         # filter
         if symbol:
             query=query.filter_by(SYMBOL=symbol)
+        # filter by date range
+        if from_Date:
+            start_date=datetime.fromtimestamp(from_Date/1000)
+            query=query.filter_by(Record.UNIX>=start_date)
+        if to_Date:
+            end_date=datetime.fromtimestamp(to_Date/1000)
+            query=query.filter_by(Record.UNIX>=end_date)        
         # sort
         if sort_column:
             query=query.order_by(text(sort_column))    
         # pagination    
-        skip=(page_num-1) * limit
-        limit=page_size
-        query=query.offset(skip).limit(limit)
+        limit = page_size
+        skip = (page_num - 1) * limit
+        query = query.offset(skip).limit(limit)
+
 
         # response in json
         all_data = query.all()

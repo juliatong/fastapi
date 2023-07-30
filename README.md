@@ -83,7 +83,7 @@ Troubleshoot tips: if there are erros, run each test alone
 `python utils_test.py` test POST /data endpoint
 `python connect_test.py` test DB manager
 
-6. Test service by trying GET /, expected result is {"",""}
+6. Test service by trying GET /, expected result is {"message": "OK"}
 
 7. Before testing any endpoints...please authenticate yourself...POST /token, for now key in usrname and password as you like.
 

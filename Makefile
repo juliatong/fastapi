@@ -29,6 +29,7 @@ logs:
 	@echo "Showing Docker Compose logs..."
 	$(DOCKER_COMPOSE) logs -f
 
+
 test: 
 	@echo "Running all the tests..."
 	pyest
@@ -43,7 +44,12 @@ shell-db:
 	@echo "Starting a shell inside the database container..."
 	$(DOCKER_COMPOSE) exec -it $(DB_SERVICE) /bin/bash
 
+set-up
+	@echo "Setting up projetcs..."
+	python create_tables.py
+
 deploy: install build up view
+setup: shell-app set-up
 test: shell-app test
 
-.PHONY: install build up down logs restart shell-app shell-db deploy test
+.PHONY: install build up down logs restart shell-app shell-db deploy test set-up

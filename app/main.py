@@ -70,6 +70,8 @@ def get_records(symbol: str = None, from_date: int=None, to_date: int=None, page
             query=query.filter_by(SYMBOL=symbol)
         # filter by date range
         if from_date is not None or to_date is not None:
+            from_date = to_date if from_date is None else from_date
+            to_date = from_date+1000 if to_date is None else to_date
             start_date=datetime.fromtimestamp(from_date/1000)
             end_date=datetime.fromtimestamp(to_date/1000)
             query=query.filter(Record.UNIX.between(start_date, end_date))     

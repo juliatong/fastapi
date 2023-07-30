@@ -20,7 +20,6 @@ def test_post_data():
 
     headers = {
         'Authorization': f'Bearer {token}',
-        # 'Content-Type': 'text/csv',
     }
 
     files = [('files', open('ohlc.csv', 'rb'))]

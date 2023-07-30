@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 import unittest
 from utils import process_csv_file
 from models import Record
-from connect import SessionLocal
 from main import app
 import asyncio
 

@@ -3,13 +3,10 @@ import mimetypes
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import text
 from datetime import datetime
-from sqlalchemy.sql import func
-from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
-# from schema import RecordOutput
 from typing import Annotated
 from typing import List
 import pymysql.cursors  
-from utils import record_to_dict, process_csv_file, load_csv
+from utils import record_to_dict, process_csv_file
 from connect import SessionLocal
 import uvicorn
 from models import Record

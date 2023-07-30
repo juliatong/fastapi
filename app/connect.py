@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine,URL,text, orm 
-from sqlalchemy.exc import OperationalError
 
 
 url_object = URL.create(

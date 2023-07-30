@@ -1,5 +1,5 @@
 import unittest
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
 from connect import engine
 
